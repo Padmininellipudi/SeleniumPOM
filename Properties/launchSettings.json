@@ -6,7 +6,8 @@
       "distributionName": ""
     },
     "SeleniumPOM": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "workingDirectory": "C:\\source\\IC\\SeleniumPOM"
     }
   }
 }

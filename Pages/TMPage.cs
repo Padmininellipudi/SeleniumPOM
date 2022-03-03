@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using SeleniumPOM.Utilities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace SeleniumPOM.Pages
 {
     internal class TMPage
     {
-        //private object driver;
 
         //Create time and material record
         public void CreateTimeMaterial(IWebDriver driver)
@@ -46,12 +46,17 @@ namespace SeleniumPOM.Pages
             //Click on save button
             IWebElement saveButton = driver.FindElement(By.Id("SaveButton"));
             saveButton.Click();
-            Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[4]/a[4]/span", 2);
-            Thread.Sleep(5000);
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id='tmsGrid']/div[3]/table/tbody/tr[1]/td[1]", 2);
+
+
+            //Wait.WaitToBeVisible(driver, "XPath", "//*[*@id='tmsGrid']/div[4]/a[4]/span", 2);
+            //Wait.WaitToBeClickable(driver, "XPath", "//*[@id='tmsGrid']/div[4]/a[4]/span", 2);
+            //Thread.Sleep(5000);
 
             //Click on go to last page button
             IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
             goToLastPageButton.Click();
+            Thread.Sleep(4000);
 
             //Check if record created is displayed in last page
             IWebElement actualCode = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
@@ -60,21 +65,30 @@ namespace SeleniumPOM.Pages
             Console.WriteLine("Actual Code ... " + actualCode.Text);
             Console.WriteLine("Actual Desc ..." + actualDescription.Text);
             Console.WriteLine("Actual Price ..." + actualPrice.Text);
-
-            if (actualCode.Text == "Padmini")
-            {
-                Console.WriteLine("MaterialOption record created successfully, Test passed");
-            }
-            else
-            {
-                Console.WriteLine("Test failed");
-            }
+            
+            //Option1
+            Assert.That(actualCode.Text == "Padmini", "Actual Code and Expected code do not match");
+            
+            //Option2
+            //if (actualCode.Text == "Padmini")
+            //{
+            //    Console.WriteLine("MaterialOption record created successfully, Test passed");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Test failed");
+            //}
 
         }
 
         //Edit time and material record
         public void EditTimeMaterialRecord(IWebDriver driver)
         {
+            //Click on go to last page button
+            IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
+            goToLastPageButton.Click();
+            Thread.Sleep(3000);
+
             //Click on edit button
             IWebElement editButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
             editButton.Click();
